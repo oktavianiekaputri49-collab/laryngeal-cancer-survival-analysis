@@ -1,0 +1,145 @@
+# Laryngeal Cancer Survival Analysis
+
+## Overview
+
+This project analyzes the survival of laryngeal cancer patients using statistical methods in R. The analysis focuses on examining survival probabilities across disease stages and evaluating the relationship between disease stage and the risk of an event.
+
+The project applies Kaplan–Meier estimation, the log-rank test, and Cox proportional hazards regression to explore differences in survival outcomes between patient groups.
+
+## Objectives
+
+- Estimate survival probabilities using the Kaplan–Meier method.
+- Compare survival distributions across disease stages using the log-rank test.
+- Evaluate the association between disease stage and event hazard using Cox proportional hazards regression.
+- Interpret statistical results to understand differences in survival outcomes.
+
+## Dataset
+
+This project uses the `larynx` dataset from the `KMsurv` R package.
+
+| Variable | Description |
+|---|---|
+| `time` | Observed follow-up or survival time |
+| `delta` | Event indicator; 1 indicates an event and 0 indicates censoring |
+| `stage` | Disease stage |
+
+## Tools and Technologies
+
+- R
+- RStudio
+- `survival` package
+- `KMsurv` package
+
+## Methods
+
+### 1. Kaplan–Meier Estimation
+
+Estimates survival probabilities over time and examines survival patterns across disease stages.
+
+### 2. Log-Rank Test
+
+Tests whether survival distributions differ significantly across disease stages.
+
+### 3. Cox Proportional Hazards Regression
+
+Evaluates the association between disease stage and the hazard of experiencing the event, using stage 1 as the reference category.
+
+## Key Findings
+
+- **Kaplan–Meier analysis:** Survival patterns vary across disease stages, with later stages generally showing poorer survival.
+- **Log-rank test:** Survival distributions differ significantly across stages (\(p \approx 0.00005\)).
+- **Cox regression:** Stage 4 has an estimated hazard approximately 5.67 times that of stage 1 (HR = 5.67, \(p < 0.001\)).
+- **Stage 2 and stage 3:** Their hazard ratios are not statistically significant at the 5% significance level compared with stage 1.
+
+These results describe associations within the analyzed dataset and do not establish causation.
+
+## Project Structure
+
+```text
+laryngeal-cancer-survival-analysis/
+├── README.md
+├── analysis.R
+└── report/
+    └── survival-analysis-report.html
+```
+
+*Adjust the filenames and folders to match the files included in your repository.*
+
+## How to Run
+
+1. Install R and RStudio.
+2. Install the required packages:
+
+   ```r
+   install.packages("survival")
+   install.packages("KMsurv")
+   ```
+
+3. Load the packages and dataset:
+
+   ```r
+   library(survival)
+   library(KMsurv)
+
+   data(larynx)
+   ```
+
+4. Perform Kaplan–Meier estimation:
+
+   ```r
+   fit.larynx <- survfit(
+     Surv(time, delta) ~ stage,
+     data = larynx,
+     conf.type = "log-log"
+   )
+
+   summary(fit.larynx)
+   plot(
+     fit.larynx,
+     xlab = "Time",
+     ylab = "Survival Probability"
+   )
+   ```
+
+5. Perform the log-rank test:
+
+   ```r
+   survdiff(Surv(time, delta) ~ stage, data = larynx)
+   ```
+
+6. Fit the Cox regression model:
+
+   ```r
+   reg.larynx <- coxph(
+     Surv(time, delta) ~ factor(stage),
+     data = larynx
+   )
+
+   summary(reg.larynx)
+   ```
+
+## Skills Demonstrated
+
+- Survival analysis
+- Kaplan–Meier estimation
+- Hypothesis testing
+- Cox proportional hazards regression
+- Statistical interpretation
+- Data analysis using R
+
+## Limitations
+
+- The analysis uses a single dataset.
+- Results depend on the available observations and follow-up information.
+- The proportional hazards assumption should be checked before drawing conclusions from the Cox model.
+- Statistical associations do not establish causation.
+
+## Conclusion
+
+This project demonstrates the application of survival analysis techniques in R to examine survival patterns among laryngeal cancer patients. The results indicate significant differences in survival distributions across disease stages, with stage 4 showing a substantially higher estimated event hazard than stage 1.
+
+## Author
+
+**Oktaviani Eka Putri**
+
+Statistics Student | Interested in Data Analysis and Statistical Modeling
